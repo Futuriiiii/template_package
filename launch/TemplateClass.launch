@@ -1,0 +1,24 @@
+<launch>
+  <!-- defines name of the namespace of the drone -->
+  <arg name="UAV_NAME" default="$(env UAV_NAME)" />
+
+  <!-- will it run using GNU debugger? -->
+  <arg name="DEBUG" default="false" />
+  <arg unless="$(arg DEBUG)" name="launch_prefix_debug" value=""/>
+  <arg     if="$(arg DEBUG)" name="launch_prefix_debug" value="debug_roslaunch"/>
+
+  <!-- will it run as standalone nodelet or using a nodelet manager? -->
+  <arg name="standalone" default="true" />
+  <arg name="manager" default="$(arg UAV_NAME)_TemplateClass" />
+  <arg unless="$(arg standalone)" name="nodelet" value="load"/>
+  <arg     if="$(arg standalone)" name="nodelet" value="standalone"/>
+  <arg unless="$(arg standalone)" name="nodelet_manager" value="$(arg manager)"/>
+  <arg     if="$(arg standalone)" name="nodelet_manager" value=""/>
+
+  <group ns="$(arg UAV_NAME)">
+    <node pkg="nodelet" type="nodelet" name="TemplateClass" args="$(arg nodelet) template_package/TemplateClass $(arg nodelet_manager)" launch-prefix="$(arg launch_prefix_debug)" output="screen">
+      <param name="uav_name" value="$(arg UAV_NAME)" />
+    </node>
+  </group>
+  
+</launch>

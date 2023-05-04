@@ -1,0 +1,5 @@
+<library path="lib/libTemplateClass">
+  <class name="template_package/TemplateClass" type="template_package::TemplateClass" base_class_type="nodelet::Nodelet">
+    <description>TemplateClass nodelet</description>
+  </class>
+</library>
